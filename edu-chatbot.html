@@ -1,0 +1,1301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>DomainMaster – Career Guide for Engineering Students</title>
+<style>
+
+:root {
+  --bg: #1565c0;
+  --card: #1976d2;
+  --text: #ffffff;
+  --muted: #e3f2fd;
+  --accent: #0d47a1;
+  --bot: #ffffff;
+  --user: #bbdefb;
+  --userText: #12345a;
+  --border: #90caf9;
+
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+:root[data-theme="dark"]{--bg:#0f1220;--card:#181c2e;--text:#e8eaf3;--muted:#9aa1b5;--accent:#818cf8;--bot:#232842;--user:#6366f1;--border:#2a3050}
+
+
+
+/* Complete dark theme */
+:root[data-theme="dark"] {
+  --bg: #0b1120;
+  --card: #111827;
+  --text: #e5e7eb;
+  --muted: #9ca3af;
+  --accent: #60a5fa;
+  --bot: #1e293b;
+  --user: #2563eb;
+  --userText: #ffffff;
+  --border: #334155;
+}
+
+/* Main application and header */
+:root[data-theme="dark"] body {
+  background: var(--bg);
+  color: var(--text);
+}
+
+:root[data-theme="dark"] .app {
+  background: var(--card);
+  border-color: var(--border);
+}
+
+:root[data-theme="dark"] header,
+:root[data-theme="dark"] .chips,
+:root[data-theme="dark"] form {
+  border-color: var(--border);
+}
+
+/* AI messages */
+:root[data-theme="dark"] .bot {
+  background: #1e293b;
+  color: #f1f5f9;
+}
+
+/* User messages */
+:root[data-theme="dark"] .user {
+  background: #1d4ed8;
+  color: #ffffff;
+}
+
+/* Input box */
+:root[data-theme="dark"] input {
+  background: #0f172a;
+  color: #f1f5f9;
+  border-color: #334155;
+}
+
+:root[data-theme="dark"] input::placeholder {
+  color: #94a3b8;
+}
+
+/* Topic and suggestion buttons */
+:root[data-theme="dark"] .chip {
+  background: #1e293b;
+  color: #e2e8f0;
+  border-color: #475569;
+}
+
+:root[data-theme="dark"] .chip.active {
+  background: #2563eb;
+  color: #ffffff;
+  border-color: #60a5fa;
+}
+
+:root[data-theme="dark"] .chip:hover {
+  background: #2563eb;
+  color: #ffffff;
+  border-color: #60a5fa;
+}
+
+/* Theme toggle */
+:root[data-theme="dark"] .theme-toggle {
+  background: #1e293b;
+  color: #f8fafc;
+  border-color: #475569;
+}
+
+/* Send button */
+:root[data-theme="dark"] button.send {
+  background: #2563eb;
+  color: #ffffff;
+}
+
+:root[data-theme="dark"] button.send:hover {
+  background: #3b82f6;
+}
+
+/* Markdown tables in AI responses */
+:root[data-theme="dark"] .markdown-body th {
+  background: #334155;
+  color: #f8fafc;
+}
+
+:root[data-theme="dark"] .markdown-body td {
+  border-color: #475569;
+}
+
+:root[data-theme="dark"] .markdown-body tr:nth-child(even) {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+:root[data-theme="dark"] .markdown-body a {
+  color: #93c5fd;
+}
+
+:root[data-theme="dark"] .markdown-body pre {
+  background: #0b1120;
+  color: #e5e7eb;
+}
+
+
+/* Theme toggle button */
+.theme-toggle {
+  margin-left: auto;
+  flex-shrink: 0;
+  padding: 9px 12px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.theme-toggle:hover {
+  opacity: 0.85;
+}
+
+.theme-toggle:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+/* Keep the message text readable in both themes */
+.bot {
+  color: var(--text);
+}
+
+.user {
+  background: var(--user);
+  color: var(--userText);
+}
+
+/* White input in light mode, dark input in dark mode */
+input {
+  background: var(--card);
+  color: var(--text);
+}
+
+
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;display:flex;justify-content:center}
+.app{width:100%;max-width:760px;height:100%;display:flex;flex-direction:column;background:var(--card);border-left:1px solid var(--border);border-right:1px solid var(--border)}
+
+header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+header > div {
+  min-width: 0;
+}
+
+.theme-switch {
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.logo{width:40px;height:40px;border-radius:12px;background:var(--accent);color:#fff;display:grid;place-items:center;font-size:22px}
+header h1{font-size:17px;margin:0}
+header small{color:var(--muted)}
+.chips{display:flex;gap:8px;padding:10px 16px;overflow-x:auto;border-bottom:1px solid var(--border)}
+.chip{border:1px solid var(--border);background:transparent;color:var(--text);padding:6px 12px;border-radius:999px;cursor:pointer;white-space:nowrap;font-size:13px}
+.chip.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+#chat{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px}
+
+.msg {
+  max-width: 84%;
+  padding: 12px 16px;
+  border-radius: 16px;
+  line-height: 1.6;
+  font-size: 15px;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.bot {
+  background: #ffffff;
+  color: #172554;
+  align-self: flex-start;
+  border-bottom-left-radius: 4px;
+}
+
+.user {
+  background: #bbdefb;
+  color: #12345a;
+  align-self: flex-end;
+  border-bottom-right-radius: 4px;
+}
+
+.typing{color:var(--muted);font-style:italic}
+.suggest{display:flex;flex-wrap:wrap;gap:8px;padding:0 16px 8px}
+.suggest .chip{font-size:12.5px;border-color:var(--accent)}
+form{display:flex;gap:8px;padding:12px 16px;border-top:1px solid var(--border)}
+
+input {
+  flex: 1;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid #90caf9;
+  background: #ffffff;
+  color: #172554;
+  font-size: 15px;
+}
+
+input::placeholder {
+  color: #64748b;
+}
+
+input:focus {
+  outline: 2px solid #90caf9;
+}
+
+button.send{background:var(--accent);color:#fff;border:0;border-radius:12px;padding:0 18px;font-size:15px;cursor:pointer}
+
+/* Readable AI responses */
+.markdown-body {
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3 {
+  margin: 16px 0 8px;
+  line-height: 1.4;
+}
+
+.markdown-body p {
+  margin: 8px 0 12px;
+}
+
+.markdown-body ul,
+.markdown-body ol {
+  padding-left: 24px;
+  margin: 8px 0 14px;
+}
+
+.markdown-body li {
+  margin-bottom: 6px;
+}
+
+/* Properly formatted comparison tables */
+.markdown-body table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 14px 0;
+  font-size: 14px;
+}
+
+.markdown-body th,
+.markdown-body td {
+  border: 1px solid #414966;
+  padding: 10px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.markdown-body th {
+  background: #babac9;
+  font-weight: 700;
+}
+
+.markdown-body tr:nth-child(even) {
+  background: rgba(255, 255, 255, 0.035);
+}
+
+/* Code formatting */
+.markdown-body pre {
+  overflow-x: auto;
+  padding: 12px;
+  border-radius: 8px;
+  background: #101525;
+}
+
+.markdown-body code {
+  overflow-wrap: anywhere;
+}
+
+.markdown-body pre code {
+  overflow-wrap: normal;
+}
+
+.markdown-body a {
+  color: #aab4ff;
+  text-decoration: underline;
+}
+
+
+.markdown-body a {
+  color: #aab4ff;
+  text-decoration: underline;
+  cursor: pointer;
+  pointer-events: auto;
+  position: relative;
+  z-index: 2;
+}
+
+
+
+/* Smooth animations for all buttons */
+button {
+  transition:
+    transform 0.2s ease,
+    background-color 0.25s ease,
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
+}
+
+/* Send button animation */
+button.send {
+  position: relative;
+  overflow: hidden;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.25s ease,
+    background-color 0.25s ease;
+}
+
+button.send:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+button.send:active {
+  transform: scale(0.94);
+  box-shadow: none;
+}
+
+/* Dark/Light theme toggle animation */
+button.theme-toggle {
+  transition:
+    transform 0.25s ease,
+    background-color 0.25s ease,
+    color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+button.theme-toggle:hover {
+  transform: translateY(-2px) rotate(-2deg);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+button.theme-toggle:active {
+  transform: scale(0.92);
+}
+
+/* Suggestion and topic chips */
+button.chip {
+  transition:
+    transform 0.2s ease,
+    background-color 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+button.chip:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent);
+  background-color: var(--accent);
+  color: #ffffff;
+}
+
+button.chip:active {
+  transform: scale(0.96);
+}
+
+/* Keyboard accessibility */
+button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+/* Respect reduced-motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  button,
+  button.send,
+  button.theme-toggle,
+  button.chip {
+    transition: none;
+  }
+
+  button:hover,
+  button:active {
+    transform: none;
+  }
+}
+
+button.send:hover {
+  box-shadow:
+    0 0 0 3px rgba(96, 165, 250, 0.2),
+    0 8px 20px rgba(37, 99, 235, 0.3);
+}
+
+
+/*Dark Theme Button*/ 
+
+/* Theme toggle switch */
+.theme-switch {
+  width: 90px;
+  height: 45px;
+  padding: 4px;
+  border: 3px solid #afacac;
+  border-radius: 40px;
+  background: #f8fafc;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  cursor: pointer;
+  flex-shrink: 0;
+  overflow: hidden;
+  transition: background .3s ease;
+}
+
+.switch-icon {
+  width: 40px;
+  text-align: center;
+  font-size: 27px;
+  z-index: 1;
+  line-height: 1;
+}
+
+.moon {
+  color: white;
+}
+
+.sun {
+  color: #171717;
+}
+
+.switch-knob {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #202020;
+  left: 7px;
+  top: 7px;
+  transition: transform .3s ease, background .3s ease;
+}
+
+/* Dark mode */
+:root[data-theme="dark"] .theme-switch {
+  background: #3d3d3d;
+  border-color: #292929;
+}
+
+:root[data-theme="dark"] .switch-knob {
+  transform: translateX(62px);
+  background: #e5e7eb;
+}
+
+:root[data-theme="dark"] .moon {
+  color: #ffffff;
+}
+
+:root[data-theme="dark"] .sun {
+  color: #a3a3a3;
+}
+
+/* Light mode */
+:root:not([data-theme="dark"]) .theme-switch {
+  background: #ffffff;
+}
+
+:root:not([data-theme="dark"]) .switch-knob {
+  background: #202020;
+}
+
+.theme-switch:hover {
+  box-shadow: 0 3px 10px rgba(0, 0, 0, .15);
+}
+
+.theme-switch:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+@media (max-width: 480px) {
+  .theme-switch {
+    width: 100px;
+    height: 46px;
+  }
+
+  .switch-knob {
+    width: 28px;
+    height: 28px;
+    top: 6px;
+    left: 5px;
+  }
+
+  :root[data-theme="dark"] .switch-knob {
+    transform: translateX(50px);
+  }
+
+  .switch-icon {
+    font-size: 23px;
+  }
+}
+
+/*Animate Dark Button*/
+
+/* Smooth sliding toggle animation */
+.theme-switch {
+  position: relative;
+  overflow: hidden;
+  transition: background-color 0.35s ease,
+              box-shadow 0.25s ease;
+}
+
+.switch-knob {
+  transition: transform 0.4s cubic-bezier(0.68, -0.2, 0.27, 1.2),
+              background-color 0.3s ease,
+              box-shadow 0.3s ease;
+}
+
+/* Add a small bounce when switching to dark mode */
+:root[data-theme="dark"] .switch-knob {
+  transform: translateX(62px);
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.25);
+}
+
+/* Light mode position */
+:root:not([data-theme="dark"]) .switch-knob {
+  transform: translateX(0);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Animate the moon and sun */
+.switch-icon {
+  transition: transform 0.35s ease, opacity 0.3s ease;
+}
+
+:root[data-theme="dark"] .moon {
+  transform: rotate(-15deg) scale(1.1);
+}
+
+:root[data-theme="dark"] .sun {
+  transform: rotate(90deg) scale(0.8);
+  opacity: 0.7;
+}
+
+:root:not([data-theme="dark"]) .sun {
+  transform: rotate(0deg) scale(1.1);
+  opacity: 1;
+}
+
+:root:not([data-theme="dark"]) .moon {
+  transform: rotate(15deg) scale(0.85);
+  opacity: 0.8;
+}
+
+/* Hover and click effects */
+.theme-switch:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.theme-switch:active .switch-knob {
+  transform: scale(0.9);
+}
+
+:root[data-theme="dark"] .theme-switch:active .switch-knob {
+  transform: translateX(62px) scale(0.9);
+}
+
+/* Respect reduced-motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .theme-switch,
+  .switch-knob,
+  .switch-icon {
+    transition: none;
+  }
+}
+
+
+/*Override*/
+
+/* Smaller theme toggle */
+.theme-switch {
+  width: 90px;
+  height: 42px;
+  padding: 3px;
+  box-sizing: border-box;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 30px;
+  overflow: hidden;
+}
+
+/* Sliding circle */
+.switch-knob {
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  top: 2px;
+  left: 1px;
+  border-radius: 50%;
+  z-index: 1;
+  transition: left 0.35s ease, background-color 0.3s ease;
+  transform: none;
+}
+
+/* Dark mode */
+:root[data-theme="dark"] .switch-knob {
+  left: 52px;
+}
+
+/* Light mode */
+:root:not([data-theme="dark"]) .switch-knob {
+  left: 2px;
+}
+
+/* Icons */
+.switch-icon {
+  width: 32px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  z-index: 2;
+  font-size: 19px;
+  line-height: 1;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+:root[data-theme="dark"] .moon {
+  transform: scale(1.05);
+}
+
+:root[data-theme="dark"] .sun {
+  opacity: 0.65;
+}
+
+:root:not([data-theme="dark"]) .sun {
+  transform: scale(1.05);
+}
+
+:root:not([data-theme="dark"]) .moon {
+  opacity: 0.65;
+}
+
+
+/*Override2*/
+
+/* Final toggle size and alignment fix */
+.theme-switch {
+  width: 80px !important;
+  height: 40px !important;
+  min-width: 90px;
+  padding: 3px !important;
+  position: relative;
+  box-sizing: border-box;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.switch-knob {
+  width: 32px !important;
+  height: 32px !important;
+  top: 2px !important;
+  left: 2px !important;
+  transform: none !important;
+  transition: left 0.35s ease, background-color 0.3s ease;
+}
+
+/* Slide right in dark mode */
+:root[data-theme="dark"] .switch-knob {
+  left: 52px !important;
+}
+
+/* Slide left in light mode */
+:root:not([data-theme="dark"]) .switch-knob {
+  left: 2px !important;
+}
+
+/* Keep icons visible and centered */
+.switch-icon {
+  width: 32px !important;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 2;
+  font-size: 19px !important;
+  line-height: 1;
+}
+
+
+
+
+
+
+
+
+/* Neural network panels */
+.neural-panel {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: max(180px, calc((100vw - 900px) / 2));
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(0, 75, 200, 0.32) 0%,
+    rgba(0, 25, 80, 0.12) 55%,
+    transparent 80%
+  );
+}
+
+.neural-left {
+  left: 0;
+}
+
+.neural-right {
+  right: 0;
+}
+
+.neural-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Keep chatbot above the animations */
+.app {
+  position: relative;
+  z-index: 1;
+}
+
+/* Hide animations on smaller screens */
+@media (max-width: 1100px) {
+  .neural-panel {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .neural-panel {
+    opacity: 0.6;
+  }
+}
+
+
+
+
+
+</style>
+</head>
+<body>
+
+
+
+
+
+
+<!-- Left neural network -->
+<div class="neural-panel neural-left" aria-hidden="true">
+  <canvas class="neural-canvas"></canvas>
+</div>
+
+<!-- Right neural network -->
+<div class="neural-panel neural-right" aria-hidden="true">
+  <canvas class="neural-canvas"></canvas>
+</div>
+
+
+
+
+
+
+<div class="app">
+  <header>
+    <div class="logo">🧭</div>
+    <div><h1>Mr.DM</h1><small>Career &amp; study guide for engineering students</small></div>
+
+    
+
+<button id="themeToggle" class="theme-switch" type="button"
+        aria-label="Switch to dark mode" title="Switch theme">
+  <span class="switch-icon moon">☾</span>
+  <span class="switch-knob"></span>
+  <span class="switch-icon sun">☀</span>
+</button>
+
+
+  </header>
+  <div class="chips" id="topics"></div>
+  <div id="chat"></div>
+  <div class="suggest" id="suggest"></div>
+  <form id="f">
+    <input id="q" placeholder="Tell me what's confusing you…" autocomplete="off">
+    <button class="send" type="submit">Send</button>
+  </form>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.6/dist/purify.min.js"></script>
+
+<script>
+
+const topics = {
+  "Not sure?": [
+    "Help me find my direction",
+    "I feel confused about my future",
+    "I'm worried about placements"
+  ],
+  "Jobs": [
+    "What jobs can I get?",
+    "Tell me about government jobs",
+    "How do I get an internship?"
+  ],
+  "Higher studies": [
+    "Should I do GATE?",
+    "Should I do MBA?",
+    "How to study abroad?"
+  ],
+  "Skills": [
+    "What skills should I learn?",
+    "How to build a resume?",
+    "Should I start coding?"
+  ]
+};
+
+const quiz = [
+  {
+    q: "Question 1/2: What do you enjoy most?",
+    o: [
+      "Coding & software",
+      "Machines & hardware",
+      "Data & math problems",
+      "Managing people & projects"
+    ]
+  },
+  {
+    q: "Question 2/2: What matters most to you right now?",
+    o: [
+      "Good salary soon",
+      "Deep learning / research",
+      "Job stability",
+      "Own business / freedom"
+    ]
+  }
+];
+
+const result = {
+  "Coding & software":
+    "Software / IT: learn DSA and one language, build projects, and apply for internships.",
+  "Machines & hardware":
+    "Core engineering: learn CAD, embedded systems, or circuits. Try an industry internship and consider GATE for PSU jobs.",
+  "Data & math problems":
+    "Data science / analytics / research: learn Python, statistics, and machine learning. Consider M.Tech or MS.",
+  "Managing people & projects":
+    "Management / consulting: build leadership skills, participate in college clubs, gain work experience, and consider an MBA."
+};
+
+const extra = {
+  "Good salary soon":
+    "Focus on job-ready skills, projects, aptitude, and placement preparation.",
+  "Deep learning / research":
+    "Explore GATE, MS, research internships, or a PhD.",
+  "Job stability":
+    "Explore PSU, government jobs, and established companies.",
+  "Own business / freedom":
+    "Join a startup cell, identify a real problem, and build a small project."
+};
+
+let step = -1;
+let first = "";
+let chatHistory = [];
+
+const chat = document.getElementById("chat");
+const q = document.getElementById("q");
+const sg = document.getElementById("suggest");
+
+// Add a message to the chat
+
+  
+function add(text, className) {
+  const div = document.createElement("div");
+  div.className = "msg " + className;
+
+  // Keep user messages and typing indicators as plain text
+  if (
+    className.includes("user") ||
+    className.includes("typing")
+  ) {
+    div.textContent = text;
+  } else {
+    // Format headings, bold text, lists, tables and code
+    const content = document.createElement("div");
+    content.className = "markdown-body";
+
+    const html = marked.parse(text, {
+      gfm: true,
+      breaks: true
+    });
+
+    
+content.innerHTML = DOMPurify.sanitize(html, {
+  ADD_ATTR: ["target", "rel"]
+});
+
+// Make HTTP and HTTPS links clickable and open in a new tab
+content.querySelectorAll("a").forEach(link => {
+  const href = link.getAttribute("href");
+
+  try {
+    const url = new URL(href, window.location.href);
+
+    if (url.protocol === "https:" || url.protocol === "http:") {
+      link.href = url.href;
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+    } else {
+      link.removeAttribute("href");
+    }
+  } catch {
+    link.removeAttribute("href");
+  }
+});
+
+div.appendChild(content);
+
+    div.appendChild(content);
+  }
+
+  chat.appendChild(div);
+  chat.scrollTop = chat.scrollHeight;
+
+  return div;
+}
+
+
+
+// Display clickable suggestion buttons
+function chips(list) {
+  sg.innerHTML = "";
+
+  list.forEach(text => {
+    const button = document.createElement("button");
+    button.className = "chip";
+    button.type = "button";
+    button.textContent = text;
+    button.onclick = () => send(text);
+    sg.appendChild(button);
+  });
+}
+
+// Display a bot response with a short delay
+function bot(text, suggestions) {
+  const typing = add("Mr.DM is typing...", "bot typing");
+
+  setTimeout(() => {
+    typing.remove();
+    add(text, "bot");
+
+    if (suggestions) {
+      chips(suggestions);
+    }
+  }, 500);
+}
+
+// Start the career quiz
+function startQuiz() {
+  step = 0;
+  ask();
+}
+
+function ask() {
+  const question = quiz[step];
+  bot(question.q, question.o);
+}
+
+// Send a question to the GroqCloud backend
+async function send(text) {
+  text = text.trim();
+
+  if (!text) return;
+
+  add(text, "user");
+  q.value = "";
+  sg.innerHTML = "";
+
+  // Handle the existing career quiz
+  if (step >= 0) {
+    if (step === 0) {
+      first = text;
+      step = 1;
+      ask();
+      return;
+    }
+
+    const answer =
+      "Based on your answers, a good direction to explore:\n\n" +
+      (result[first] || "Explore different areas through small projects.") +
+      "\n\n" +
+      (extra[text] || "Explore your options through practical experience.") +
+      "\n\nRemember: this is a starting point, not a final decision.";
+
+    step = -1;
+
+    bot(answer, [
+      "What skills should I learn?",
+      "How do I get an internship?",
+      "Should I do GATE?"
+    ]);
+
+    return;
+  }
+
+  // Start the quiz when requested
+  if (/direction|quiz|suggest|find my/i.test(text)) {
+    startQuiz();
+    return;
+  }
+
+  // Show a loading indicator while the AI responds
+  const typing = add("Mr.DM is thinking...", "bot typing");
+
+  try {
+    const response = await fetch("/api/chat", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        message: text,
+        history: chatHistory
+      })
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(
+        data.error || "Unable to get an AI response."
+      );
+    }
+
+    typing.remove();
+
+    // Display the AI-generated answer
+    add(data.answer, "bot");
+
+    // Save recent conversation for follow-up questions
+    chatHistory.push(
+      { role: "user", content: text },
+      { role: "assistant", content: data.answer }
+    );
+
+    chatHistory = chatHistory.slice(-10);
+
+    chips([
+      "What skills should I learn?",
+      "How do I get an internship?",
+      "Should I do GATE?"
+    ]);
+
+  } catch (error) {
+    typing.remove();
+
+    add(
+      "Sorry, I couldn't get an AI response. " +
+      error.message +
+      " Please check that the server is running and try again.",
+      "bot"
+    );
+
+    chips([
+      "Try again",
+      "What jobs can I get?"
+    ]);
+  }
+}
+
+// Create the topic buttons at the top
+Object.keys(topics).forEach((topic, index) => {
+  const button = document.createElement("button");
+
+  button.className = "chip" + (index === 0 ? " active" : "");
+  button.type = "button";
+  button.textContent = topic;
+
+  button.onclick = () => {
+    document
+      .querySelectorAll("#topics .chip")
+      .forEach(chip => {
+        chip.classList.toggle("active", chip === button);
+      });
+
+    step = -1;
+    chips(topics[topic]);
+  };
+
+  document.getElementById("topics").appendChild(button);
+});
+
+// Handle the chat form submission
+document.getElementById("f").addEventListener("submit", event => {
+  event.preventDefault();
+  send(q.value);
+});
+
+// Initial welcome message
+add(
+  "Hi! 👋 I'm Mr.DM. Not sure what to do during or after engineering? I can help you step by step. Ask me anything!",
+  "bot"
+);
+
+chips(topics["Not sure?"]);
+
+
+/* Dark/light theme toggle */
+const themeToggle = document.getElementById("themeToggle");
+
+function applyTheme(theme) {
+  document.documentElement.setAttribute("data-theme", theme);
+
+  const isDark = theme === "dark";
+
+  themeToggle.setAttribute(
+    "aria-label",
+    isDark ? "Switch to light mode" : "Switch to dark mode"
+  );
+}
+
+// Restore the saved theme, defaulting to light mode
+const savedTheme = localStorage.getItem("pathfinder-theme");
+applyTheme(savedTheme === "dark" ? "dark" : "light");
+
+// Change and save the theme when clicked
+themeToggle.addEventListener("click", () => {
+  const currentTheme =
+    document.documentElement.getAttribute("data-theme");
+
+  const newTheme = currentTheme === "dark" ? "light" : "dark";
+
+  applyTheme(newTheme);
+  localStorage.setItem("pathfinder-theme", newTheme);
+});
+
+
+
+
+
+/* Animated AI neural network */
+document.querySelectorAll(".neural-canvas").forEach((canvas, index) => {
+  const ctx = canvas.getContext("2d");
+  const panel = canvas.parentElement;
+
+  let width = 0;
+  let height = 0;
+  let nodes = [];
+  let animationId;
+
+  function resize() {
+    const rect = panel.getBoundingClientRect();
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+    width = rect.width;
+    height = rect.height;
+
+    canvas.width = width * dpr;
+    canvas.height = height * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    const count = Math.max(35, Math.floor((width * height) / 7000));
+
+    nodes = Array.from({ length: count }, () => ({
+      x: Math.random() * width,
+      y: Math.random() * height,
+      vx: (Math.random() - 0.5) * 0.35,
+      vy: (Math.random() - 0.5) * 0.35,
+      radius: Math.random() * 1.8 + 1
+    }));
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, width, height);
+
+    const dark =
+      document.documentElement.getAttribute("data-theme") === "dark";
+
+    const glow = dark ? "70, 190, 255" : "0, 160, 255";
+
+    nodes.forEach((node) => {
+      node.x += node.vx;
+      node.y += node.vy;
+
+      if (node.x < 0 || node.x > width) node.vx *= -1;
+      if (node.y < 0 || node.y > height) node.vy *= -1;
+
+      node.x = Math.max(0, Math.min(width, node.x));
+      node.y = Math.max(0, Math.min(height, node.y));
+    });
+
+    /* Draw connections between nearby nodes */
+    for (let i = 0; i < nodes.length; i++) {
+      for (let j = i + 1; j < nodes.length; j++) {
+        const a = nodes[i];
+        const b = nodes[j];
+        const dx = a.x - b.x;
+        const dy = a.y - b.y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+
+        if (distance < 105) {
+          ctx.beginPath();
+          ctx.moveTo(a.x, a.y);
+          ctx.lineTo(b.x, b.y);
+
+          ctx.strokeStyle =
+            `rgba(${glow}, ${0.38 * (1 - distance / 105)})`;
+
+          ctx.lineWidth = 0.7;
+          ctx.stroke();
+        }
+      }
+    }
+
+    /* Draw glowing network nodes */
+    nodes.forEach((node, i) => {
+      const pulse = 0.7 + Math.sin(Date.now() * 0.002 + i) * 0.3;
+
+      ctx.beginPath();
+      ctx.arc(node.x, node.y, node.radius + pulse, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${glow}, ${0.65 + pulse * 0.3})`;
+      ctx.shadowBlur = 10;
+      ctx.shadowColor = `rgb(${glow})`;
+      ctx.fill();
+      ctx.shadowBlur = 0;
+    });
+
+    animationId = requestAnimationFrame(draw);
+  }
+
+  resize();
+  draw();
+
+  window.addEventListener("resize", resize);
+
+  /* Store cleanup handle for this canvas */
+  canvas.dataset.networkSide = index === 0 ? "left" : "right";
+});
+
+
+
+</script>
+</body>
+</html>
